@@ -1,0 +1,20 @@
+<div class="home-container">
+    <h1>Aplikacja Pogodowa</h1>
+
+    <app-search-bar (search)="onSearch($event)"></app-search-bar>
+
+    <div class="loading-spinner" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div class="error-message" *ngIf="error">
+        {{ error }}
+    </div>
+
+    <app-weather-card *ngIf="weather" [weather]="weather"></app-weather-card>
+
+    <div class="welcome-message" *ngIf="!weather && !loading && !error">
+        <mat-icon>wb_sunny</mat-icon>
+        <p>Wpisz nazwę miasta, aby sprawdzić pogodę</p>
+    </div>
+</div>

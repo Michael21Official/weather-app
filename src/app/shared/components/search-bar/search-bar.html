@@ -1,0 +1,12 @@
+<div class="search-container">
+    <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Wpisz nazwę miasta</mat-label>
+        <input matInput [(ngModel)]="city" (keyup.enter)="onSearch()" placeholder="np. Kraków">
+        <mat-icon matSuffix>location_city</mat-icon>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="onSearch()" [disabled]="!city.trim()">
+        <mat-icon>search</mat-icon>
+        Szukaj
+    </button>
+</div>

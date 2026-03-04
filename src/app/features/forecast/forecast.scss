@@ -1,0 +1,166 @@
+.forecast-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #333;
+        }
+    }
+
+    .loading-spinner {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+    }
+
+    .error-message {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #ffebee;
+        color: #c62828;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+
+    .content {
+        .summary-card {
+            margin: 1rem 0;
+
+            .summary-stats {
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                flex-wrap: wrap;
+                gap: 1rem;
+
+                .weather-icon img {
+                    width: 60px;
+                    height: 60px;
+                }
+
+                .temps {
+                    display: flex;
+                    gap: 1.5rem;
+
+                    .temp-max,
+                    .temp-min {
+                        display: flex;
+                        align-items: center;
+                        gap: 0.25rem;
+
+                        mat-icon {
+                            font-size: 1.2rem;
+                        }
+                    }
+
+                    .temp-max {
+                        color: #f44336;
+                    }
+
+                    .temp-min {
+                        color: #2196f3;
+                    }
+                }
+
+                .pop {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.25rem;
+                    color: #4caf50;
+
+                    mat-icon {
+                        font-size: 1.2rem;
+                    }
+                }
+            }
+        }
+
+        .hourly-forecast {
+            margin-top: 2rem;
+
+            h3 {
+                margin-bottom: 1rem;
+                color: #666;
+            }
+
+            .hourly-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 1rem;
+
+                .hour-card {
+                    text-align: center;
+
+                    mat-card-content {
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        gap: 0.5rem;
+                    }
+
+                    .hour {
+                        font-weight: bold;
+                        color: #1976d2;
+                    }
+
+                    .hour-icon {
+                        width: 50px;
+                        height: 50px;
+                    }
+
+                    .hour-temp {
+                        font-size: 1.3rem;
+                        font-weight: 500;
+                    }
+
+                    .hour-desc {
+                        font-size: 0.8rem;
+                        color: #666;
+                        text-transform: capitalize;
+                    }
+
+                    .hour-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.25rem;
+                        font-size: 0.8rem;
+                        color: #666;
+                        width: 100%;
+
+                        span {
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            gap: 0.25rem;
+
+                            mat-icon {
+                                font-size: 0.9rem;
+                                width: 0.9rem;
+                                height: 0.9rem;
+                            }
+                        }
+
+                        .rain-chance {
+                            color: #4caf50;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+    text-transform: capitalize;
+}

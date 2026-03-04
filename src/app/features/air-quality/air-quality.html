@@ -1,0 +1,125 @@
+<div class="air-quality-container" *ngIf="airQuality && airQuality.list && airQuality.list.length > 0; else noData">
+    <div class="header">
+        <button mat-raised-button routerLink="/">
+            <mat-icon>arrow_back</mat-icon>
+            Powrót
+        </button>
+        <h1>Jakość powietrza: {{ city }}</h1>
+    </div>
+
+    <div class="loading-spinner" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div class="error-message" *ngIf="error">
+        <mat-icon>error</mat-icon>
+        {{ error }}
+    </div>
+
+    <div class="content" *ngIf="airQuality && !loading && !error">
+        <!-- Główny wskaźnik AQI -->
+        <mat-card class="aqi-card" *ngIf="airQuality.list[0] as item"
+            [style.borderLeft]="'4px solid ' + getAqiColor(item.main.aqi)">
+            <mat-card-header>
+                <mat-icon mat-card-avatar [style.color]="getAqiColor(item.main.aqi)">air</mat-icon>
+                <mat-card-title>Indeks Jakości Powietrza (AQI)</mat-card-title>
+                <mat-card-subtitle>{{ getAqiLabel(item.main.aqi) }}</mat-card-subtitle>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="aqi-value" [style.color]="getAqiColor(item.main.aqi)">
+                    {{ item.main.aqi }}
+                </div>
+                <p class="aqi-description">{{ getAqiDescription(item.main.aqi) }}</p>
+                <p class="timestamp">Pomiar z: {{ item.dt * 1000 | date:'dd.MM.yyyy HH:mm' }}</p>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Szczegółowe zanieczyszczenia -->
+        <mat-card class="pollutants-card" *ngIf="airQuality.list[0] as item">
+            <mat-card-header>
+                <mat-icon mat-card-avatar>science</mat-icon>
+                <mat-card-title>Szczegółowe zanieczyszczenia</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <mat-list>
+                    <mat-list-item *ngIf="item.components.pm2_5 !== undefined">
+                        <span matListItemTitle>PM2.5 (Pyły drobne)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.pm2_5, 'µg/m³') }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="item.components.pm10 !== undefined">
+                        <span matListItemTitle>PM10 (Pyły grube)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.pm10, 'µg/m³') }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="item.components.o3 !== undefined">
+                        <span matListItemTitle>O₃ (Ozon)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.o3, 'µg/m³') }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="item.components.no2 !== undefined">
+                        <span matListItemTitle>NO₂ (Dwutlenek azotu)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.no2, 'µg/m³') }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="item.components.so2 !== undefined">
+                        <span matListItemTitle>SO₂ (Dwutlenek siarki)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.so2, 'µg/m³') }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="item.components.co !== undefined">
+                        <span matListItemTitle>CO (Tlenek węgla)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.co, 'µg/m³') }}</span>
+                    </mat-list-item>
+
+                    <mat-list-item *ngIf="item.components.nh3 !== undefined">
+                        <span matListItemTitle>NH₃ (Amoniak)</span>
+                        <span matListItemLine>{{ formatPollutant(item.components.nh3, 'µg/m³') }}</span>
+                    </mat-list-item>
+                </mat-list>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Zalecenia -->
+        <mat-card class="recommendations-card" *ngIf="airQuality.list[0] as item">
+            <mat-card-header>
+                <mat-icon mat-card-avatar>tips_and_updates</mat-icon>
+                <mat-card-title>Zalecenia</mat-card-title>
+            </mat-card-header>
+
+            <mat-card-content>
+                <div class="recommendation-item" *ngIf="item.main.aqi >= 4">
+                    <mat-icon color="warn">warning</mat-icon>
+                    <span>Unikaj aktywności na zewnątrz</span>
+                </div>
+
+                <div class="recommendation-item" *ngIf="item.main.aqi >= 3">
+                    <mat-icon color="accent">masks</mat-icon>
+                    <span>Rozważ noszenie maski ochronnej</span>
+                </div>
+
+                <div class="recommendation-item" *ngIf="item.components.pm2_5 > 25">
+                    <mat-icon>window</mat-icon>
+                    <span>Zamknij okna i używaj oczyszczacza powietrza</span>
+                </div>
+
+                <div class="recommendation-item" *ngIf="item.main.aqi <= 2">
+                    <mat-icon color="primary">check_circle</mat-icon>
+                    <span>Warunki sprzyjające - możesz swobodnie przebywać na zewnątrz</span>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+<ng-template #noData>
+    <div class="no-data-container" *ngIf="!loading && !error">
+        <mat-icon>cloud_off</mat-icon>
+        <p>Brak danych o jakości powietrza</p>
+        <button mat-raised-button color="primary" routerLink="/">
+            Wróć do strony głównej
+        </button>
+    </div>
+</ng-template>

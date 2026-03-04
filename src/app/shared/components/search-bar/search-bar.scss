@@ -1,0 +1,15 @@
+.search-container {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .search-field {
+        flex: 1;
+        min-width: 250px;
+    }
+
+    button {
+        height: 56px;
+    }
+}

@@ -1,0 +1,80 @@
+<div class="forecast-container">
+    <div class="header">
+        <button mat-raised-button routerLink="/">
+            <mat-icon>arrow_back</mat-icon>
+            Powrót
+        </button>
+        <h1>Prognoza 5-dniowa: {{ city }}</h1>
+    </div>
+
+    <div class="loading-spinner" *ngIf="loading">
+        <mat-spinner diameter="40"></mat-spinner>
+    </div>
+
+    <div class="error-message" *ngIf="error">
+        <mat-icon>error</mat-icon>
+        {{ error }}
+    </div>
+
+    <div class="content" *ngIf="forecast && !loading && !error">
+        <!-- Taby z dniami -->
+        <mat-tab-group dynamicHeight>
+            <mat-tab *ngFor="let day of days" [label]="day">
+                <ng-template mat-tab-label>
+                    <span class="tab-label">{{ day.split(' ')[0] }}</span>
+                </ng-template>
+
+                <div class="day-summary" *ngIf="groupedForecast.get(day) as items">
+                    <mat-card class="summary-card">
+                        <mat-card-content>
+                            <div class="summary-stats">
+                                <div class="weather-icon">
+                                    <img [src]="getWeatherIconUrl(getDayStats(items).weatherIcon)"
+                                        [alt]="getDayStats(items).weatherMain">
+                                </div>
+                                <div class="temps">
+                                    <div class="temp-max">
+                                        <mat-icon>arrow_upward</mat-icon>
+                                        {{ getDayStats(items).tempMax | temperature }}
+                                    </div>
+                                    <div class="temp-min">
+                                        <mat-icon>arrow_downward</mat-icon>
+                                        {{ getDayStats(items).tempMin | temperature }}
+                                    </div>
+                                </div>
+                                <div class="pop" *ngIf="getDayStats(items).pop > 0">
+                                    <mat-icon>umbrella</mat-icon>
+                                    {{ getPopPercentage(getDayStats(items).pop) }}
+                                </div>
+                            </div>
+                        </mat-card-content>
+                    </mat-card>
+
+                    <!-- Szczegółowe prognozy co 3 godziny -->
+                    <div class="hourly-forecast">
+                        <h3>Prognoza godzinowa</h3>
+                        <div class="hourly-grid">
+                            <mat-card *ngFor="let item of items" class="hour-card">
+                                <mat-card-content>
+                                    <div class="hour">{{ getHourString(item.dt) }}</div>
+                                    <img [src]="getWeatherIconUrl(item.weather[0].icon)"
+                                        [alt]="item.weather[0].description" class="hour-icon">
+                                    <div class="hour-temp">{{ item.main.temp | temperature }}</div>
+                                    <div class="hour-desc">{{ item.weather[0].description }}</div>
+                                    <div class="hour-details">
+                                        <span *ngIf="item.pop > 0" class="rain-chance">
+                                            <mat-icon>umbrella</mat-icon> {{ getPopPercentage(item.pop) }}
+                                        </span>
+                                        <span class="wind">
+                                            <mat-icon>air</mat-icon> {{ item.wind.speed }} m/s
+                                        </span>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

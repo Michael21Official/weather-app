@@ -1,0 +1,50 @@
+<mat-card class="weather-card" *ngIf="weather">
+    <mat-card-header>
+        <mat-card-title>
+            <h2>{{ weather.name }}, {{ weather.sys.country }}</h2>
+        </mat-card-title>
+        <mat-card-subtitle>
+            {{ weather.weather[0].description | titlecase }}
+        </mat-card-subtitle>
+    </mat-card-header>
+
+    <mat-card-content>
+        <div class="weather-main">
+            <img [src]="getWeatherIconUrl(weather.weather[0].icon)" [alt]="weather.weather[0].description">
+            <span class="temperature">{{ weather.main.temp | temperature }}</span>
+        </div>
+
+        <div class="weather-details">
+            <div class="detail-item">
+                <mat-icon>thermostat</mat-icon>
+                <span>Odczuwalna: {{ weather.main.feels_like | temperature }}</span>
+            </div>
+
+            <div class="detail-item">
+                <mat-icon>opacity</mat-icon>
+                <span>Wilgotność: {{ weather.main.humidity }}%</span>
+            </div>
+
+            <div class="detail-item">
+                <mat-icon>air</mat-icon>
+                <span>Wiatr: {{ weather.wind.speed }} m/s</span>
+            </div>
+
+            <div class="detail-item">
+                <mat-icon>compress</mat-icon>
+                <span>Ciśnienie: {{ weather.main.pressure }} hPa</span>
+            </div>
+        </div>
+
+        <div class="sun-times" *ngIf="weather.sys">
+            <div class="sun-item">
+                <mat-icon>wb_sunny</mat-icon>
+                <span>Wschód: {{ weather.sys.sunrise * 1000 | date:'HH:mm' }}</span>
+            </div>
+            <div class="sun-item">
+                <mat-icon>bedtime</mat-icon>
+                <span>Zachód: {{ weather.sys.sunset * 1000 | date:'HH:mm' }}</span>
+            </div>
+        </div>
+    </mat-card-content>
+</mat-card>

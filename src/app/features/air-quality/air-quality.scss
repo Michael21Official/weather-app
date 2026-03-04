@@ -1,0 +1,103 @@
+.air-quality-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+
+    .header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 2rem;
+
+        h1 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #333;
+        }
+    }
+
+    .loading-spinner {
+        display: flex;
+        justify-content: center;
+        margin: 2rem 0;
+    }
+
+    .error-message {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background-color: #ffebee;
+        color: #c62828;
+        padding: 1rem;
+        border-radius: 4px;
+        margin: 1rem 0;
+    }
+
+    .content {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .aqi-card {
+            .aqi-value {
+                font-size: 4rem;
+                font-weight: bold;
+                text-align: center;
+                margin: 1rem 0;
+            }
+
+            .aqi-description {
+                font-size: 1.1rem;
+                text-align: center;
+                color: #666;
+                line-height: 1.6;
+            }
+
+            .timestamp {
+                text-align: right;
+                color: #999;
+                font-size: 0.9rem;
+                margin-top: 1rem;
+            }
+        }
+
+        .pollutants-card {
+            mat-list {
+                padding: 0;
+
+                mat-list-item {
+                    height: auto;
+                    margin-bottom: 0.5rem;
+
+                    [matListItemTitle] {
+                        font-weight: 500;
+                    }
+
+                    [matListItemLine] {
+                        color: #666;
+                    }
+                }
+            }
+        }
+
+        .recommendations-card {
+            .recommendation-item {
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                padding: 0.75rem;
+                margin: 0.5rem 0;
+                background-color: #f5f5f5;
+                border-radius: 4px;
+
+                mat-icon {
+                    flex-shrink: 0;
+                }
+
+                span {
+                    flex: 1;
+                }
+            }
+        }
+    }
+}
